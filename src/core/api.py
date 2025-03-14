@@ -42,7 +42,7 @@ from src.utils.helper import (
     gen_frontend_mask,
     adjust_mask,
 )
-from src.model.utils import torch_gc
+from src.models.utils import torch_gc
 from src.manager.model_manager import ModelManager
 from src.schemas.schema import (
     GenInfoResponse,

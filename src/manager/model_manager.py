@@ -6,7 +6,7 @@ import numpy as np
 
 from src.manager.download import scan_models
 from src.utils.helper import switch_mps_device
-from src.model.power_paint.power_paint_v2 import PowerPaintV2
+from src.models.power_paint.power_paint_v2 import PowerPaintV2
 from src.schemas.schema import InpaintRequest, ModelInfo, ModelType
 
 

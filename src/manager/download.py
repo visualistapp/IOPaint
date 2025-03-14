@@ -9,8 +9,8 @@ from pathlib import Path
 
 
 def cli_download_model(model: str):
-    from src.model import models
-    from src.model.utils import handle_from_pretrained_exceptions
+    from src.models import models
+    from src.models.utils import handle_from_pretrained_exceptions
 
     if model in models and models[model].is_erase_model:
         logger.info(f"Downloading {model}...")
