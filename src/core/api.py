@@ -12,6 +12,8 @@ import cv2
 import numpy as np
 import socketio
 import torch
+import boto3
+from io import BytesIO
 
 try:
     torch._C._jit_override_can_fuse_on_cpu(False)
@@ -182,7 +184,17 @@ class Api:
 
     async def api_inpaint(self, req: InpaintRequest):
         def process_request():
-            image, alpha_channel, infos = decode_base64_to_image(req.image)
+            if req.image.startswith("s3://"):
+                s3 = boto3.client("s3")
+                bucket_name, key = req.image[5:].split("/", 1)
+                s3_response = s3.get_object(Bucket=bucket_name, Key=key)
+                image_data = s3_response["Body"].read()
+                image = np.array(Image.open(BytesIO(image_data)))
+                alpha_channel = None
+                infos = {}
+            else:
+                image, alpha_channel, infos = decode_base64_to_image(req.image)
+                
             mask, _, _ = decode_base64_to_image(req.mask, gray=True)
 
             mask = cv2.threshold(mask, 127, 255, cv2.THRESH_BINARY)[1]
